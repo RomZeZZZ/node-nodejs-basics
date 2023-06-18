@@ -12,7 +12,7 @@ const create = async () => {
         console.log('Fresh file created successfully.');
       })
       .catch(() => {
-        console.log('FS operation failed. Failed to create file');
+        throw new Error('FS operation failed. Failed to create file');
       });
       return false;
     });
