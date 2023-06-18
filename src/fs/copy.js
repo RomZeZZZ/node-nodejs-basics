@@ -1,8 +1,11 @@
 import { readdir, mkdir, writeFile, access, constants, readFile } from 'fs/promises';
+import { dirname, join } from 'path';
 import path from 'path';
+import { fileURLToPath } from 'url';
 const copy = async () => {
-    const folderPath = './src/fs/files/';
-    const newFolderPath = './src/fs/files_copy/'
+    const rootPath = dirname(fileURLToPath(import.meta.url));
+    const folderPath = join(rootPath, 'files');
+    const newFolderPath = join(rootPath, 'files_copy');
     try {
         const files = await readdir(folderPath)
         .then((data) => data)
