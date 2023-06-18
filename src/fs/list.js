@@ -1,4 +1,4 @@
-import { readdir, mkdir, writeFile, access, constants, readFile } from 'fs/promises';
+import { readdir, access, constants } from 'fs/promises';
 const list = async () => {
     const folderPath = './src/fs/files/';
     try {
