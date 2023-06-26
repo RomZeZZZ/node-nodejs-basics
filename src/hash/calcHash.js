@@ -1,12 +1,10 @@
 import { createHash } from 'crypto';
 import { readFile } from 'fs/promises';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
-const calculateHash = async () => {
+import { resolve } from 'node:path';
+const calculateHash = async (filePath) => {
     try {
-        const rootPath = dirname(fileURLToPath(import.meta.url));
-        const filePath = join(rootPath, 'files', 'fileToCalculateHashFor.txt');
-        const fileData = await readFile(filePath)
+        const workFilePath = resolve(process.cwd(), filePath);
+        const fileData = await readFile(workFilePath)
             .then((data) => data)
             .catch(() => {
                 throw new Error(`FS operation failed. Failed to read ${filePath}`);
@@ -20,4 +18,4 @@ const calculateHash = async () => {
     }
 };
 
-await calculateHash();
+export default calculateHash;

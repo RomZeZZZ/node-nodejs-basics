@@ -7,6 +7,8 @@ import rename from "./fs/rename.js";
 import copyFile from "./streams/copy.js";
 import moveFile from "./streams/mv.js";
 import remove from "./fs/delete.js";
+import osInfo from "./os/os.js";
+import calculateHash from "./hash/calcHash.js";
 const handleCommand = async (rlCommand) => {
     try {
         const commandArr = rlCommand.trim().replace(/\s+/g, ' ').split(' '); 
@@ -16,7 +18,7 @@ const handleCommand = async (rlCommand) => {
                 break;
             case commandArr[0] === 'cd':
                 if(commandArr.length === 2) cd(commandArr[1])
-                else throw new Error();
+                else throw new Error('Wrong data in arguments');
                 break;
             case commandArr[0] === 'ls':
                 await list();
@@ -43,6 +45,14 @@ const handleCommand = async (rlCommand) => {
                 break;
             case commandArr[0] === 'rm':
                 if(commandArr.length === 2) await remove(commandArr[1])
+                else throw new Error('Wrong data in arguments');
+                break;
+            case commandArr[0] === 'os':
+                if(commandArr.length === 2) await osInfo(commandArr[1])
+                else throw new Error('Wrong data in arguments');
+                break;
+            case commandArr[0] === 'hash':
+                if(commandArr.length === 2) await calculateHash(commandArr[1])
                 else throw new Error('Wrong data in arguments');
                 break;
             default:
