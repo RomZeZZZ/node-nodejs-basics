@@ -1,13 +1,17 @@
 import { createReadStream } from 'fs';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import { resolve } from 'node:path';
 import { pipeline as pipelineAsync } from 'stream/promises';
-const read = async () => {
-    const rootPath = dirname(fileURLToPath(import.meta.url));
-    const filePath = join(rootPath, 'files', 'fileToRead.txt');
-    const readStream = createReadStream(filePath, 'utf8');
-    await pipelineAsync(readStream, process.stdout)
-    .catch((error) => {console.log(error)});
+const readStream = async (pathFile) => {
+    try {
+        const readStream = createReadStream(resolve(process.cwd(), pathFile), 'utf8');
+        await pipelineAsync(readStream, process.stdout, { end: false })
+        .catch(() => {
+            throw new Error('Operation failed. Failed to read file')
+        });
+        console.log();
+    } catch (error) {
+        throw new Error(error.message);
+    }
 };
 
-await read();
+export default readStream;
